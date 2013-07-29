@@ -1,4 +1,5 @@
 fname = "http://data.stevenloria.com/python-subreddit-traffic.csv"
+# fname = './python-subreddit-traffic.csv'
 window.parseIsoDate = d3.time.format.iso.parse
 
 getDayRange = (dates) ->
@@ -15,10 +16,9 @@ tenDayFilter = (datum, i) ->
 
 d3.csv(fname, (error, csv) ->
     return console.log("There was an error:" + error)  if error
-
     ### Line chart  ###
-    lineChartData = () ->
-        return d3.nest()
+    window.lineChartData = () ->
+        data =  d3.nest()
             .key((d) -> "r/" + d.subreddit)
             .rollup((d) ->
                 # Only show data within the past 10 days
@@ -29,6 +29,11 @@ d3.csv(fname, (error, csv) ->
                 return formatted
             )
             .entries(csv)
+        # Temporarily disable learnpython until data is complete
+        for each in data
+            if each.key == 'r/learnpython'
+                each.disabled = true
+        return data
 
     dates = csv.map((entry) -> return +parseIsoDate(entry.date))
     x2tickValues = getDayRange(dates)  # Show a tick mark at every day on
@@ -53,7 +58,7 @@ d3.csv(fname, (error, csv) ->
 
 
     ### Bar chart (by hour) ###
-    hourlyData = () ->
+    window.hourlyData = () ->
         nested = d3.nest()
                     .key((d) -> d.subreddit)
                     .key((d) -> parseIsoDate(d.date).getHours())  # This is a string
@@ -63,9 +68,9 @@ d3.csv(fname, (error, csv) ->
                         return if +a < +b then -1 else (if +a > +b then 1 else 0)
                     )
                     .entries(csv)
+        hours = d3.range(24)
         data = []
         for each in nested
-            # console.log each
             subreddit = each.key
             values = each.values.map((d) ->
                 x = +d.key  # the hour
@@ -75,7 +80,17 @@ d3.csv(fname, (error, csv) ->
                 # Each value has the form: {x: hour, y: mean users}
                 return {x: x, y: y}
             )
+            # Fill in missing vals
+            hr_vals = values.map((d) -> return d.x)
+            hours.forEach((hour, i, ary) ->
+                if hour not in hr_vals
+                    values.push({x: +hour, y: 0})
+            )
             data.push {key: "r/" + subreddit, values: values}
+        # Temporarily disable learnpython until data is complete
+        for each in data
+            if each.key == 'r/learnpython'
+                each.disabled = true
         return data
 
     nv.addGraph ->
@@ -123,7 +138,7 @@ d3.csv(fname, (error, csv) ->
                         return if days[a] < days[b] then -1 else (if days[a] > days[b] then 1 else 0)
                     )
                     .entries(csv)
-
+        day_strings = (day for day of days)
         data = []
         for each in nested
             # console.log each
@@ -135,8 +150,18 @@ d3.csv(fname, (error, csv) ->
                 y = d3.round(d3.mean(nUsers))
                 return {x: x, y: y}
             )
+            # Fill in missing vals
+            day_vals = values.map((d) -> return d.x)
+            day_strings.forEach((day, i, ary) ->
+                if day not in day_vals
+                    values.push({x: day, y: 0})
+            )
             # each value has the form: {x: weekday, y: mean users}
             data.push {key: "r/" + subreddit, values: values}
+        # Temporarily disable learnpython until data is complete
+        for each in data
+            if each.key == 'r/learnpython'
+                each.disabled = true
         return data
 
     nv.addGraph ->
