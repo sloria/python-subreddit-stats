@@ -1,0 +1,37 @@
+body{
+    width: 90%;
+    margin: 50px 50px;
+}
+
+svg {
+    padding: 20px 50px;
+}
+
+p.help {
+    color: #999999;
+}
+
+.center{
+    text-align: center;
+}
+
+.line-chart svg {
+  height: 450px;
+  /*width: 720px;*/
+}
+
+.bar-chart svg {
+    height: 300px;
+}
+
+a {
+    text-decoration: none;
+    color: #113F8C;
+}
+
+footer {
+    font-size: 70%;
+    text-align: right;
+    letter-spacing: 0;
+    color: #777;
+}

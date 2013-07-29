@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Python Subreddits Traffic</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="css/normalize.min.css">
+        <link rel="stylesheet" href="css/nv.d3.css">
+        <link rel="stylesheet" href="css/main.css">
+
+    </head>
+    <body>
+
+        <h1>Python Subreddits Traffic</h1>
+
+        <p class="help">Updated hourly. All times are in your local time zone.</p>
+
+        <h2>Number of users over time</h2>
+        <div class="line-chart" id="time-chart">
+          <svg></svg>
+          <p class='help center'>Drag over a time period on the bottom panel to magnify it</p>
+        </div>
+
+
+        <h2>Users by the hour</h2>
+        <div class="bar-chart" id="hour-chart">
+          <svg></svg>
+        </div>
+
+        <h2>Users by the day</h2>
+        <div class="bar-chart" id="day-chart">
+          <svg></svg>
+        </div>
+
+        <script src="js/plugins.js"></script>
+        <script src="js/script.js"></script>
+
+        <footer>
+            <a href="http://www.github.com/sloria">sloria</a>
+        </footer>
+    </body>
+</html>
