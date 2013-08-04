@@ -11,6 +11,10 @@ p.help {
     color: #999999;
 }
 
+.pull-right {
+    float: right;
+}
+
 .center{
     text-align: center;
 }

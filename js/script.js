@@ -40,7 +40,7 @@
     */
 
     window.lineChartData = function() {
-      var data, each, _i, _len;
+      var data;
       data = d3.nest().key(function(d) {
         return "r/" + d.subreddit;
       }).rollup(function(d) {
@@ -54,12 +54,6 @@
         });
         return formatted;
       }).entries(csv);
-      for (_i = 0, _len = data.length; _i < _len; _i++) {
-        each = data[_i];
-        if (each.key === 'r/learnpython') {
-          each.disabled = true;
-        }
-      }
       return data;
     };
     dates = csv.map(function(entry) {
@@ -84,7 +78,7 @@
     */
 
     window.hourlyData = function() {
-      var data, each, hours, hr_vals, nested, subreddit, values, _i, _j, _len, _len1;
+      var data, each, hours, hr_vals, nested, subreddit, values, _i, _len;
       nested = d3.nest().key(function(d) {
         return d.subreddit;
       }).key(function(d) {
@@ -140,12 +134,6 @@
           values: values
         });
       }
-      for (_j = 0, _len1 = data.length; _j < _len1; _j++) {
-        each = data[_j];
-        if (each.key === 'r/learnpython') {
-          each.disabled = true;
-        }
-      }
       return data;
     };
     nv.addGraph(function() {
@@ -158,7 +146,6 @@
       chart.tooltip(function(key, x, y, e, graph) {
         return "<h3>" + key + "</h3><p>" + y + " users at " + x + "</p>";
       });
-      chart.stacked(true);
       d3.select("#hour-chart svg").datum(hourlyData()).transition().duration(50).call(chart);
       return nv.utils.windowResize(chart.update);
     });
@@ -166,7 +153,7 @@
     */
 
     window.dayData = function() {
-      var data, day, day_strings, day_vals, days, each, nested, subreddit, values, _i, _j, _len, _len1;
+      var data, day, day_strings, day_vals, days, each, nested, subreddit, values, _i, _len;
       days = {
         "Monday": 0,
         "Tuesday": 1,
@@ -241,12 +228,6 @@
           values: values
         });
       }
-      for (_j = 0, _len1 = data.length; _j < _len1; _j++) {
-        each = data[_j];
-        if (each.key === 'r/learnpython') {
-          each.disabled = true;
-        }
-      }
       return data;
     };
     return nv.addGraph(function() {
@@ -259,7 +240,6 @@
       chart.tooltip(function(key, x, y, e, graph) {
         return "<h3>" + key + "</h3><p>" + y + " users/hr on " + x + "s</p>";
       });
-      chart.stacked(true);
       d3.select("#day-chart svg").datum(dayData()).transition().duration(200).call(chart);
       return nv.utils.windowResize(chart.update);
     });

@@ -29,10 +29,6 @@ d3.csv(fname, (error, csv) ->
                 return formatted
             )
             .entries(csv)
-        # Temporarily disable learnpython until data is complete
-        for each in data
-            if each.key == 'r/learnpython'
-                each.disabled = true
         return data
 
     dates = csv.map((entry) -> return +parseIsoDate(entry.date))
@@ -87,10 +83,6 @@ d3.csv(fname, (error, csv) ->
                     values.push({x: +hour, y: 0})
             )
             data.push {key: "r/" + subreddit, values: values}
-        # Temporarily disable learnpython until data is complete
-        for each in data
-            if each.key == 'r/learnpython'
-                each.disabled = true
         return data
 
     nv.addGraph ->
@@ -106,7 +98,6 @@ d3.csv(fname, (error, csv) ->
         chart.tooltip((key, x, y, e, graph) ->
             return "<h3>#{key}</h3><p>#{y} users at #{x}</p>"
         )
-        chart.stacked(true)
         d3.select("#hour-chart svg")
             .datum(hourlyData())
             .transition().duration(50)
@@ -158,10 +149,6 @@ d3.csv(fname, (error, csv) ->
             )
             # each value has the form: {x: weekday, y: mean users}
             data.push {key: "r/" + subreddit, values: values}
-        # Temporarily disable learnpython until data is complete
-        for each in data
-            if each.key == 'r/learnpython'
-                each.disabled = true
         return data
 
     nv.addGraph ->
@@ -176,7 +163,6 @@ d3.csv(fname, (error, csv) ->
         chart.tooltip((key, x, y, e, graph) ->
             return "<h3>#{key}</h3><p>#{y} users/hr on #{x}s</p>"
         )
-        chart.stacked(true)
         d3.select("#day-chart svg")
             .datum(dayData())
             .transition().duration(200)
